@@ -19,7 +19,7 @@ function configureBtn(id) {
 const validateCardHolderName = function (name) {
   try {
     if (name == "" || name == null) {
-      throw new Error("Cardholder field cannot be empty!");
+      throw new Error("Cardholder field cannot be blank!");
     }
     var matches = name.match(/\d+/g);
     if (matches != null) {
@@ -73,7 +73,29 @@ input.addEventListener("input", onChange, false);
 const validateCardNumber = function (pan) {
   try {
     if (pan == "" || pan == null) {
-      throw new Error("Card number field cannot be empty!");
+      throw new Error("Card number field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// VALIDATING EXPIRY DATE FIELD
+const validateCardExpiration = function (expiration) {
+  try {
+    if (expiration == "" || expiration == null) {
+      throw new Error("Expiration Date field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+// VALIDATING CVV2 FIELD
+const validateCvv = function (cvv) {
+  try {
+    if (cvv == "" || cvv == null) {
+      throw new Error("Cvv field cannot be blank!");
     }
   } catch (error) {
     return error.message;
@@ -87,14 +109,22 @@ function payWithCard() {
   const expiry = document.getElementById("expiry").value;
   const cvv = document.getElementById("cvv").value;
 
-  const val = validateCardHolderName(cardHolder);
-  const valX = validateCardNumber(cardNumber);
+  const cardHolderVal = validateCardHolderName(cardHolder);
+  const cardNumberVal = validateCardNumber(cardNumber);
+  const expirationVal = validateCardExpiration(expiry);
+  const cvvVal = validateCvv(cvv);
 
-  if (val) {
-    return alert(val);
+  if (cardHolderVal) {
+    return alert(cardHolderVal);
   }
-  if (valX) {
-    return alert(valX);
+  if (cardNumberVal) {
+    return alert(cardNumberVal);
+  }
+  if (expirationVal) {
+    return alert(expirationVal);
+  }
+  if (cvvVal) {
+    return alert(cvvVal);
   }
 
   configureBtn("payWithCard");
