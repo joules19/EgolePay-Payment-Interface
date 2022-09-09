@@ -102,8 +102,8 @@ const validateCvv = function (cvv) {
   }
 };
 
-//RUN PAYMENT OPERATION UPON CLICKING CARD PAYMENT BUTTON
-function payWithCard() {
+// CONSOLIDATED INPUT VALIDATION
+const consolidatedValidation = function () {
   const cardHolder = document.getElementById("cardHolder").value;
   const cardNumber = document.getElementById("cardNumber").value;
   const expiry = document.getElementById("expiry").value;
@@ -115,16 +115,24 @@ function payWithCard() {
   const cvvVal = validateCvv(cvv);
 
   if (cardHolderVal) {
-    return alert(cardHolderVal);
+    return cardHolderVal;
   }
   if (cardNumberVal) {
-    return alert(cardNumberVal);
+    return cardNumberVal;
   }
   if (expirationVal) {
-    return alert(expirationVal);
+    return expirationVal;
   }
   if (cvvVal) {
-    return alert(cvvVal);
+    return cvvVal;
+  }
+}
+
+//RUN PAYMENT OPERATION UPON CLICKING CARD PAYMENT BUTTON
+function payWithCard() {
+  const returnedValidationVal = consolidatedValidation();
+  if (returnedValidationVal) {
+    return alert(returnedValidationVal);
   }
 
   configureBtn("payWithCard");
