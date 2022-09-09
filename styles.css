@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Ubuntu");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Ubuntu", sans-serif;
+}
+
+body {
+  background: #ffffff;
+  margin: 0 10px;
+}
+
+/* payment mode controls */
+.controls {
+  display: flex;
+  max-width: 360px;
+  margin: 90px auto 10px;
+  height: auto;
+  padding: 15px 0;
+  position: relative;
+  flex-direction: column;
+}
+
+.controls p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #0d3d61ae;
+  margin-bottom: 0.3rem;
+}
+
+.controls .controls-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.controls .button {
+  background-color: #000000; /* Green */
+  border: none;
+  color: white;
+  width: 20%;
+  padding: 5px 10px;
+  /* text-align: center; */
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.75rem;
+  margin: 0 0.4rem;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.controls .button1 {
+  background-color: white;
+  color: #0d3c61;
+  border: 1px solid #0d3c61;
+}
+
+.controls .button1:hover {
+  background-color: #0d3c61;
+  color: #fff;
+  border: none;
+}
+
+/* form card */
+.payment {
+  background: #f7f7f7;
+  max-width: 360px;
+  margin: 40px auto 300px;
+  height: auto;
+  padding: 35px 35px 20px;
+  padding-top: 40px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.269);
+}
+
+.payment-logo {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+  background: #f8f8f8;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  line-height: 85px;
+  border: 1px solid #ff8000;
+}
+
+.payment-logo:before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4.5px;
+  width: 60px;
+  height: 60px;
+  background: #ff8000ad;
+  border-radius: 50%;
+}
+
+.payment-logo p {
+  position: relative;
+  color: #ffffff;
+  font-family: "Baloo Bhaijaan", cursive;
+  font-size: 12px;
+  margin-top: -5px;
+}
+
+.payment h3 {
+  text-align: center;
+  letter-spacing: 2px;
+  margin: 10px 0 30px;
+  color: #0d3c61;
+}
+
+/* FORM INPUTS AND ELEMENTS */
+label.label {
+  font-size: 0.8rem;
+  display: block;
+  color: #555555;
+  margin-bottom: 0.2rem;
+}
+
+.input {
+  padding: 8px 0px 8px 25px;
+  width: 100%;
+  text-align: center;
+  border: 1.5px solid #dddddd;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  word-spacing: 3px;
+  outline: none;
+  font-size: 0.8rem;
+  color: #555555e1;
+}
+
+.input::placeholder {
+  color: #c7c6c6;
+  font-size: 0.75rem;
+  letter-spacing: 0.1rem;
+}
+
+.input:focus {
+  border: 1px solid #f8a24b;
+}
+
+.card-grp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-item {
+  width: 48%;
+}
+
+.space {
+  margin-bottom: 15px;
+}
+
+/* ICONS */
+.icon-relative {
+  position: relative;
+}
+
+.icon-relative .fas,
+.icon-relative .far {
+  position: absolute;
+  bottom: 12px;
+  left: 15px;
+  font-size: 0.9rem;
+  color: #878686;
+}
+
+.icon-relative .fas,
+.icon-relative .far {
+  bottom:10px;
+  left: 15px;
+  font-size: 1rem;
+  color: #878686;
+}
+
+.icon-relative .fab {
+  position: absolute;
+  bottom:8px;
+  left: 15px;
+  font-size: 1.2rem;
+  color: #878686;
+}
+
+.fa-spinner {
+  bottom: 40px;
+  font-size: 1rem;
+}
+
+
+/* PAYMENT BUTTON */
+.payBtn {
+  margin-top: 15px;
+  width: 100%;
+  background: #ff8000ad;
+  padding: 12px;
+  text-align: center;
+  color: #f8f8f8;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none !important;
+}
+
+.payBtn:hover {
+  background-color: #ff800075;
+}
+
+.fa-spinner {
+  margin-left: -12px;
+  margin-right: 8px;
+}
+
+/* VENDOR LOGO */
+.images {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.images img {
+  width: 20%;
+  margin: 0 0.4rem;
+  opacity: 0.6;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 420px) {
+  .card-grp {
+    flex-direction: column;
+  }
+  .card-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .btn {
+    margin-top: 20px;
+  }
+}
+
+/* .showDiv {
+  opacity: 1;
+  transition: opacity 0.6s linear;
+}
+
+.hideDiv {
+  opacity: 0;
+  transition: display 0.6s linear;
+} */
