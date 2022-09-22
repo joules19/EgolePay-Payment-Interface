@@ -1,5 +1,83 @@
 //This document controls payment actions and styling upon clicking payment button
 
+//import {proceedWithCard} from "./helper.js";
+
+//RUN PAYMENT OPERATION UPON CLICKING CARD PAYM BUTTON
+async function payWithCard() {
+  const cardHolder = document.getElementById("cardHolder").value;
+  const cardNumber = document.getElementById("cardNumber").value;
+  const expiry = document.getElementById("expiry").value;
+  const cvv = document.getElementById("cvv").value;
+  //const pin = document.getElementById("pin").value;
+
+  //ACCESS TO HTML
+  //var proceedBtn = document.getElementById("proceedWithCard");
+  var payBtn = document.getElementById("payWithCard");
+
+  const returnedValidationVal = consolidatedValidation(
+    cardHolder,
+    cardNumber,
+    expiry,
+    cvv
+  );
+
+  //basee = window.btoa();
+  if (returnedValidationVal) {
+    return alert(returnedValidationVal);
+  }
+  configureBtn("payWithCard");
+
+  //FORMING PAYLOAD FOR REQUEST ACTION
+  const formData = {
+    paymentType: "card",
+    apiKey: "PKwessdwwee43a",
+    publicKey: "sdwwee43asasdad",
+    secretKey: "",
+    merchantId: "Ehis & Shoes",
+    pan: cardNumber,
+    cardHolder: cardHolder,
+    expiry: expiry,
+    cvv: cvv,
+    amount: "3000",
+    description: "payment for goods",
+    pin: "uytghj",
+  };
+
+  var requestOptions = {
+    method: "POST",
+    // headers: {
+    //   Accept: "application.json",
+    //   "Content-Type": "application/json",
+    // },
+    //body: JSON.stringify(formData),
+  };
+
+  await fetch(
+    "http://api.paydev.egolepay.com/api/InterswitchPayment/GenerateAccessToken",
+    requestOptions
+  )
+    .then((response) => response.json())
+
+    .then((data) => {
+      console.log("Success:", data);
+      payBtn.style.display = "none";
+      $("#proceedWithCard").fadeIn(1000);
+
+      proceedWithCard(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+//PROCEED BUTTTON TO REDIRECT TO FINAL CHECKOUT PAGE
+const proceedWithCard = (urlString) => {
+  const input = document.getElementById("proceedWithCard");
+  input.addEventListener("click", function () {
+    location.href = urlString;
+  });
+};
+
 // Adds styling and spinner to the payament button upon click.
 function configureBtn(id) {
   var btnElement = document.getElementById(id);
@@ -30,7 +108,7 @@ const validateCardHolderName = function (name) {
   }
 };
 // CONFIGURING CARD NETWORK ICONS UPON CARD NUMBER INPUT
-function configureIcon(classes) {
+function configureCardNetworkIcon(classes) {
   const element = document.getElementById("cardIcon");
   element.remove();
   var el = document.getElementById("cardN");
@@ -43,32 +121,32 @@ function configureIcon(classes) {
 }
 
 // STYLING BASED ON CARD NETWORK && VALIDATION FOR CARDNUMBER
-const onChange = function (evt) {
+const onCardNumberInputChange = function (evt) {
   let firstElement = evt.target.value;
 
   if (firstElement == "") {
     let classes = ["far", "fa-credit-card"];
-    configureIcon(classes);
+    configureCardNetworkIcon(classes);
   }
 
   if (firstElement == 5) {
     let classes = ["fab", "fa-cc-mastercard"];
-    configureIcon(classes);
+    configureCardNetworkIcon(classes);
   }
 
   if (firstElement == 4) {
     let classes = ["fab", "fa-cc-visa"];
-    configureIcon(classes);
+    configureCardNetworkIcon(classes);
   }
 
   if (firstElement == 3) {
     let classes = ["fab", "fa-cc-amex"];
-    configureIcon(classes);
+    configureCardNetworkIcon(classes);
   }
 };
 
 var input = document.getElementById("cardNumber");
-input.addEventListener("input", onChange, false);
+input.addEventListener("input", onCardNumberInputChange, false);
 
 const validateCardNumber = function (pan) {
   try {
@@ -86,6 +164,12 @@ const validateCardExpiration = function (expiration) {
     if (expiration == "" || expiration == null) {
       throw new Error("Expiration Date field cannot be blank!");
     }
+    const cardYear = expiration.charAt(5) + expiration.charAt(6);
+    const d = new Date();
+    const curYear = d.getFullYear();
+
+    //  const slicedYear = curYear.charAt(2) + curYear.charAt(3)
+    //  alert(slicedYear);
   } catch (error) {
     return error.message;
   }
@@ -103,12 +187,7 @@ const validateCvv = function (cvv) {
 };
 
 // CONSOLIDATED INPUT VALIDATION
-const consolidatedValidation = function () {
-  const cardHolder = document.getElementById("cardHolder").value;
-  const cardNumber = document.getElementById("cardNumber").value;
-  const expiry = document.getElementById("expiry").value;
-  const cvv = document.getElementById("cvv").value;
-
+const consolidatedValidation = function (cardHolder, cardNumber, expiry, cvv) {
   const cardHolderVal = validateCardHolderName(cardHolder);
   const cardNumberVal = validateCardNumber(cardNumber);
   const expirationVal = validateCardExpiration(expiry);
@@ -126,17 +205,7 @@ const consolidatedValidation = function () {
   if (cvvVal) {
     return cvvVal;
   }
-}
-
-//RUN PAYMENT OPERATION UPON CLICKING CARD PAYMENT BUTTON
-function payWithCard() {
-  const returnedValidationVal = consolidatedValidation();
-  if (returnedValidationVal) {
-    return alert(returnedValidationVal);
-  }
-
-  configureBtn("payWithCard");
-}
+};
 
 //RUN PAYMENT OPERATION UPON CLICKING MOBILE PAYMENT BUTTON
 function payWithMobile() {

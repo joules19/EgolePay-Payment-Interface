@@ -1,6 +1,5 @@
 //This file controls styling for the payment gateway card and form elements.
 
-
 //Access to HTML elements by Id
 var cardDiv = document.getElementById("card");
 var mobileDiv = document.getElementById("mobile");
@@ -49,3 +48,15 @@ function mobileBtnProps() {
   cardBtn.style.color = "#0D3C61";
   cardBtn.style.border = "1px solid #0D3C61";
 }
+
+//Setting hover style on control buttons with javascript 
+// function setButtonHoverStyle(btnId, col1, col2) {
+//   document.getElementById(btnId).onmouseover = function () {
+//     this.style.backgroundColor = col1;
+//     this.style.color = col2;
+//   };
+//   document.getElementById(btnId).onmouseleave = function () {
+//     this.style.backgroundColor = col2;
+//     this.style.color = col1;
+//   };
+// }

@@ -42,7 +42,7 @@ body {
   background-color: #000000; /* Green */
   border: none;
   color: white;
-  width: 20%;
+  width: 30%;
   padding: 5px 10px;
   /* text-align: center; */
   text-decoration: none;
@@ -59,11 +59,11 @@ body {
   border: 1px solid #0d3c61;
 }
 
-.controls .button1:hover {
+/* .controls .button1:hover {
   background-color: #0d3c61;
   color: #fff;
   border: none;
-}
+} */
 
 /* form card */
 .payment {
@@ -203,6 +203,7 @@ label.label {
 .payBtn {
   margin-top: 15px;
   width: 100%;
+  font-size: .85rem;
   background: #ff8000ad;
   padding: 12px;
   text-align: center;
