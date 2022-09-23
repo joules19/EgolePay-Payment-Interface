@@ -4,70 +4,100 @@
 
 //RUN PAYMENT OPERATION UPON CLICKING CARD PAYM BUTTON
 async function payWithCard() {
-  const cardHolder = document.getElementById("cardHolder").value;
-  const cardNumber = document.getElementById("cardNumber").value;
-  const expiry = document.getElementById("expiry").value;
-  const cvv = document.getElementById("cvv").value;
-  //const pin = document.getElementById("pin").value;
+  try {
+    const cardHolder = document.getElementById("cardHolder").value;
+    const cardNumber = document.getElementById("cardNumber").value;
+    const expiry = document.getElementById("expiry").value;
+    const cvv = document.getElementById("cvv").value;
+    const pin = document.getElementById("pinDiv");
 
-  //ACCESS TO HTML
-  //var proceedBtn = document.getElementById("proceedWithCard");
-  var payBtn = document.getElementById("payWithCard");
+    //ACCESS TO HTML
+    //var proceedBtn = document.getElementById("proceedWithCard");
+    var payBtn = document.getElementById("payWithCard");
 
-  const returnedValidationVal = consolidatedValidation(
-    cardHolder,
-    cardNumber,
-    expiry,
-    cvv
-  );
+    const returnedValidationVal = consolidatedValidation(
+      cardHolder,
+      cardNumber,
+      expiry,
+      cvv
+    );
 
-  //basee = window.btoa();
-  if (returnedValidationVal) {
-    return alert(returnedValidationVal);
-  }
-  configureBtn("payWithCard");
+    //basee = window.btoa();
+    if (returnedValidationVal) {
+      return alert(returnedValidationVal);
+    }
 
-  //FORMING PAYLOAD FOR REQUEST ACTION
-  const formData = {
-    paymentType: "card",
-    apiKey: "PKwessdwwee43a",
-    publicKey: "sdwwee43asasdad",
-    secretKey: "",
-    merchantId: "Ehis & Shoes",
-    pan: cardNumber,
-    cardHolder: cardHolder,
-    expiry: expiry,
-    cvv: cvv,
-    amount: "3000",
-    description: "payment for goods",
-    pin: "uytghj",
-  };
+    // if (pin.style.display === "none") {
+    //   $("#pinDiv").fadeIn(500);
+    //   return;
+    // }
 
-  var requestOptions = {
-    method: "POST",
-    // headers: {
-    //   Accept: "application.json",
-    //   "Content-Type": "application/json",
-    // },
-    //body: JSON.stringify(formData),
-  };
+    // const inputPin = document.getElementById("pin").value;
 
-  await fetch(
-    "http://api.paydev.egolepay.com/api/InterswitchPayment/GenerateAccessToken",
-    requestOptions
-  )
-    .then((response) => response.json())
+    // if (pin.style.display === "none" || inputPin == "") {
+    //   throw new Error("Please enter your pin");
+    // }
 
-    .then((data) => {
-      console.log("Success:", data);
-      payBtn.style.display = "none";
-      $("#proceedWithCard").fadeIn(1000);
+    configureBtn("payWithCard");
 
-      proceedWithCard(data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+    var myHeaders = new Headers();
+
+    //myHeaders.append("Content-Type", "application/json");
+    //myHeaders.append("Access-Control-Allow-Origin", "*");
+    //myHeaders.append("Accept", "application/json");
+    // myHeaders.append(
+    //   "Access-Control-Allow-Methods",
+    //   "DELETE, POST, GET, OPTIONS"
+    // );
+    // myHeaders.append(
+    //   "Access-Control-Allow-Headers",
+    //   "Content-Type, Authorization, X-Requested-With"
+    // );
+    var settings = {
+      url: "http://api.paydev.egolepay.com/api/InterswitchPayment/GenerateAccessToken",
+      method: "POST",
+      timeout: 0,
+      headers: {},
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
     });
+
+    var settings = {
+      url: "http://api.paydev.egolepay.com/api/PaymentEngine/MakePayment",
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      data: JSON.stringify({
+        paymentType: "card",
+        apiKey: "PKwessdwwee43a",
+        publicKey: "sdwwee43asasdad",
+        secretKey: "UEt3ZXNzZHd3ZWU0M2FzZHd3ZWU0M2FzYXNkYWQ=",
+        merchantID: "1",
+        merchTrancRef: "7699jy54",
+        pan: "6280511000000095",
+        expiry: "12/26",
+        amount: "300",
+        cvv: "123",
+        cardholder: "sam",
+        mobile: "08069493993",
+        pin: "0000",
+        currency: "NGN",
+        description: "payment for goods",
+        mobileTransfer: "null",
+      }),
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+    });
+  } catch (error) {
+    alert(error.message);
+  }
 }
 
 //PROCEED BUTTTON TO REDIRECT TO FINAL CHECKOUT PAGE
@@ -81,7 +111,11 @@ const proceedWithCard = (urlString) => {
 // Adds styling and spinner to the payament button upon click.
 function configureBtn(id) {
   var btnElement = document.getElementById(id);
+  btnElement.innerText = "";
+
   btnElement.disabled = true;
+  disableInputs(true);
+
   btnElement.style.backgroundColor = "#ff800075";
 
   const classesToAdd = ["fas", "fa-spinner", "fa-spin"];
@@ -212,3 +246,27 @@ function payWithMobile() {
   configureBtn("payWithMobile");
   const mobile = document.getElementById("mobile").value;
 }
+
+//FUNCTION TO DISABLE INPUTS AT DATA PROCESSING
+const disableInputs = (a) => {
+  if (a === true) {
+    cardNumber.style.color = "#afafafe0";
+    cardHolder.style.color = "#afafafe0";
+    expiry.style.color = "#afafafe0";
+    cvv.style.color = "#afafafe0";
+    pin.style.color = "#afafafe0";
+
+    document.getElementById("cardHolder").disabled = true;
+    document.getElementById("cardNumber").disabled = true;
+    document.getElementById("expiry").disabled = true;
+    document.getElementById("cvv").disabled = true;
+    document.getElementById("pin").disabled = true;
+  } else {
+    cardNumber.style.color = "#555555e1";
+    document.getElementById("cardHolder").disabled = false;
+    document.getElementById("cardNumber").disabled = false;
+    document.getElementById("expiry").disabled = false;
+    document.getElementById("cvv").disabled = false;
+    document.getElementById("pin").disabled = false;
+  }
+};

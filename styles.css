@@ -150,6 +150,10 @@ label.label {
   border: 1px solid #f8a24b;
 }
 
+.fade-input {
+  color: "#9f9d9de1" !important;
+}
+
 .card-grp {
   display: flex;
   justify-content: space-between;
@@ -179,7 +183,7 @@ label.label {
 
 .icon-relative .fas,
 .icon-relative .far {
-  bottom:10px;
+  bottom: 10px;
   left: 15px;
   font-size: 1rem;
   color: #878686;
@@ -187,7 +191,7 @@ label.label {
 
 .icon-relative .fab {
   position: absolute;
-  bottom:8px;
+  bottom: 8px;
   left: 15px;
   font-size: 1.2rem;
   color: #878686;
@@ -195,19 +199,18 @@ label.label {
 
 .fa-spinner {
   bottom: 40px;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
-
 
 /* PAYMENT BUTTON */
 .payBtn {
   margin-top: 15px;
   width: 100%;
-  font-size: .85rem;
+  font-size: 0.85rem;
   background: #ff8000ad;
-  padding: 12px;
+  padding: 10px 12px;
   text-align: center;
-  color: #f8f8f8;
+  color: #fff;
   border-radius: 5px;
   cursor: pointer;
   border: none !important;
@@ -215,11 +218,6 @@ label.label {
 
 .payBtn:hover {
   background-color: #ff800075;
-}
-
-.fa-spinner {
-  margin-left: -12px;
-  margin-right: 8px;
 }
 
 /* VENDOR LOGO */
@@ -235,7 +233,6 @@ label.label {
   margin: 0 0.4rem;
   opacity: 0.6;
 }
-
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 420px) {

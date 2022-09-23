@@ -15,8 +15,8 @@
       <div class="controls">
         <p>Please choose a payment mode</p>
         <div class="controls-button">
-          <button id="btn1" class="button button1">Card</button>
-          <button id="btn2" class="button button1">Mobile</button>
+          <button id="btn1" class="button button1">Card Payment</button>
+          <button id="btn2" class="button button1">Pay Attitude</button>
         </div>
       </div>
 
@@ -29,15 +29,16 @@
         <div class="form">
           <div class="card space icon-relative">
             <label class="label">Card holder</label>
-            <input id="cardHolder" type="text" class="input" placeholder="Mike Arfa" />
+            <input id="cardHolder" type="text" class="input fade-input" placeholder="Mike Arfa" />
             <i class="fas fa-user"></i>
           </div>
           <div id="cardN" class="card space icon-relative">
             <label class="label">Card number</label>
             <input
               id="cardNumber"
+              name="card-input"
               type="text"
-              class="input"
+              class="input fade-input"
               data-mask="0000 0000 0000 0000"
               placeholder="Card Number"
             />
@@ -50,7 +51,7 @@
                 id="expiry"
                 type="text"
                 name="expiry-data"
-                class="input"
+                class="input fade-input"
                 data-mask="00 / 00"
                 placeholder="00 / 00"
               />
@@ -61,15 +62,30 @@
               <input
                 id="cvv"
                 type="text"
-                class="input"
+                class="input fade-input"
                 data-mask="000"
                 placeholder="000"
               />
               <i class="fas fa-lock"></i>
             </div>
+
+          </div>
+
+          <div style="display: none;" id="pinDiv" class="card space icon-relative">
+            <label class="label">Pin</label>
+            <input
+            style="-webkit-text-security: square; font-size: 1rem;"
+              id="pin"
+              type="password"
+              class="input fade-input"
+              data-mask="0000"
+              placeholder="Enter Pin"
+            />
+            <i id="cardIcon" class="fas fa-lock"></i>
           </div>
 
           <button onclick="payWithCard()" id="payWithCard" class="payBtn">Pay</button>
+          <button style="display: none;" onclick="proceedWithCard()" id="proceedWithCard" class="payBtn">Proceed</button>
           <div class="images">
           <img src="img/mix.png"></img>
           <img src="img/verve.png"></img>
@@ -102,7 +118,6 @@
             <img src="img/mix.png"></img>
             <img src="img/verve.png"></img>
             <img src="img/pay_attitude.png"></img>
-              
             </div>
         </div>
       </div>
@@ -112,6 +127,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/payment.js"></script>
-
+    <script src="js/helper.js"></script>
   </body>
 </html>
