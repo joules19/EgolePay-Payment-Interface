@@ -1,100 +1,90 @@
 //This document controls payment actions and styling upon clicking payment button
 
-//import {proceedWithCard} from "./helper.js";
-
 //RUN PAYMENT OPERATION UPON CLICKING CARD PAYM BUTTON
 async function payWithCard() {
   try {
+    //ACCESS TO HTML
+    var payBtn = document.getElementById("payWithCard");
     const cardHolder = document.getElementById("cardHolder").value;
     const cardNumber = document.getElementById("cardNumber").value;
+    const formatCardNumber = cardNumber.replace(/\s+/g, "");
     const expiry = document.getElementById("expiry").value;
     const cvv = document.getElementById("cvv").value;
-    const pin = document.getElementById("pinDiv");
+    const cvvInput = document.getElementById("expiry");
+    const formatExpiry = expiry.replace(/\s+/g, "");
+    // const pin = document.getElementById("pinDiv");
 
-    //ACCESS TO HTML
-    //var proceedBtn = document.getElementById("proceedWithCard");
-    var payBtn = document.getElementById("payWithCard");
+    // const pin = document.getElementById("pinDiv");
 
+    //Passing arguments into method to validaye input fields
     const returnedValidationVal = consolidatedValidation(
       cardHolder,
       cardNumber,
       expiry,
-      cvv
+      cvvInput
     );
 
-    //basee = window.btoa();
+    //Return validation status to display error
     if (returnedValidationVal) {
       return alert(returnedValidationVal);
     }
 
-    // if (pin.style.display === "none") {
-    //   $("#pinDiv").fadeIn(500);
-    //   return;
-    // }
-
-    // const inputPin = document.getElementById("pin").value;
-
-    // if (pin.style.display === "none" || inputPin == "") {
-    //   throw new Error("Please enter your pin");
-    // }
-
+    //Activates Spinner on button
     configureBtn("payWithCard");
 
+    //Forming payload for payment endpoint
+    var raw = JSON.stringify({
+      paymentType: "card",
+      apiKey: "PKwessdwwee43a",
+      publicKey: "sdwwee43asasdad",
+      secretKey: "UEt3ZXNzZHd3ZWU0M2FzZHd3ZWU0M2FzYXNkYWQ=",
+      merchantID: "1",
+      merchTrancRef: "7699jy54",
+      pan: formatCardNumber,
+      expiry: formatExpiry,
+      amount: "300",
+      cvv: cvv,
+      cardholder: cardHolder,
+      mobile: "08069493993",
+      pin: "0000",
+      currency: "NGN",
+      description: "payment for goods",
+      mobileTransfer: "null",
+    });
+
     var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    // myHeaders.append("Access-Control-Allow-Origin", "*");
+    // myHeaders.append("Access-Control-Allow-Methods", "POST");
+    // myHeaders.append("Access-Control-Allow-Headers", "Content-Type");
 
-    //myHeaders.append("Content-Type", "application/json");
-    //myHeaders.append("Access-Control-Allow-Origin", "*");
-    //myHeaders.append("Accept", "application/json");
-    // myHeaders.append(
-    //   "Access-Control-Allow-Methods",
-    //   "DELETE, POST, GET, OPTIONS"
-    // );
-    // myHeaders.append(
-    //   "Access-Control-Allow-Headers",
-    //   "Content-Type, Authorization, X-Requested-With"
-    // );
-    var settings = {
-      url: "http://api.paydev.egolepay.com/api/InterswitchPayment/GenerateAccessToken",
+    var requestOptions = {
       method: "POST",
-      timeout: 0,
-      headers: {},
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
     };
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-    });
+    fetch(
+      "http://api.paydev.egolepay.com/api/PaymentEngine/makepayment",
+      requestOptions
+    )
+      .then((response) => response.json())
 
-    var settings = {
-      url: "http://api.paydev.egolepay.com/api/PaymentEngine/MakePayment",
-      method: "POST",
-      timeout: 0,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      data: JSON.stringify({
-        paymentType: "card",
-        apiKey: "PKwessdwwee43a",
-        publicKey: "sdwwee43asasdad",
-        secretKey: "UEt3ZXNzZHd3ZWU0M2FzZHd3ZWU0M2FzYXNkYWQ=",
-        merchantID: "1",
-        merchTrancRef: "7699jy54",
-        pan: "6280511000000095",
-        expiry: "12/26",
-        amount: "300",
-        cvv: "123",
-        cardholder: "sam",
-        mobile: "08069493993",
-        pin: "0000",
-        currency: "NGN",
-        description: "payment for goods",
-        mobileTransfer: "null",
-      }),
-    };
+      .then((data) => {
+        //Proceeding if server response == 00
+        if (data.statusCode == "00") {
+          payBtn.style.display = "none";
+          $("#proceedWithCard").fadeIn(500);
+          proceedWithCard(data.subDefaultCardDetailsUrl);
+        }
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-    });
+        //Error if server response == 01
+        if (data.statusCode == "01") {
+          alert(data.subDefaultCardDetailsUrl);
+        }
+      })
+      .catch((error) => console.log("error", error));
   } catch (error) {
     alert(error.message);
   }
@@ -103,7 +93,13 @@ async function payWithCard() {
 //PROCEED BUTTTON TO REDIRECT TO FINAL CHECKOUT PAGE
 const proceedWithCard = (urlString) => {
   const input = document.getElementById("proceedWithCard");
+  //var proceedBtn = document.getElementById("proceedWithCard");
+
   input.addEventListener("click", function () {
+    //Activates Spinner on button
+    configureBtn("proceedWithCard");
+    input.disabled = true;
+    input.style.background = "#ff800075";
     location.href = urlString;
   });
 };

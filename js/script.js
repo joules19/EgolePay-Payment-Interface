@@ -49,7 +49,7 @@ function mobileBtnProps() {
   cardBtn.style.border = "1px solid #0D3C61";
 }
 
-//Setting hover style on control buttons with javascript 
+//Setting hover style on control buttons with javascript
 // function setButtonHoverStyle(btnId, col1, col2) {
 //   document.getElementById(btnId).onmouseover = function () {
 //     this.style.backgroundColor = col1;
@@ -59,4 +59,15 @@ function mobileBtnProps() {
 //     this.style.backgroundColor = col2;
 //     this.style.color = col1;
 //   };
+// }
+
+// if (pin.style.display === "none") {
+//   $("#pinDiv").fadeIn(500);
+//   return;
+// }
+
+// const inputPin = document.getElementById("pin").value;
+
+// if (pin.style.display === "none" || inputPin == "") {
+//   throw new Error("Please enter your pin");
 // }
