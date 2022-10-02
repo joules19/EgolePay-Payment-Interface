@@ -1,34 +1,448 @@
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!DOCTYPE html>
 
-<div id="app">
-  {{ message }}
-  <button onclick="{runFetch}">{{ message }}</button>
-</div>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <link href="/Content/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Content/bootstrap.min.css" />
+    <script src="/Scripts/jquery-2.2.0.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
+    <title>Verve</title>
+  </head>
+  <body>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        padding-top: 2%;
+        background: url(/img/backnew.png);
+        background-size: cover;
+      }
+      #preloader {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
 
-<script>
-  const { createApp } = Vue;
+      #preloader i {
+        color: #fff;
+        font-size: 100px;
+        margin-left: 45%;
+        margin-top: 15%;
+      }
 
-  createApp({
-    data() {
-      const name = "sayo";
-      const requestOptions = {
-        method: "POST",
-        redirect: "follow",
-      };
-      return {
-        message: requestOptions.method,
-      };
-    },
-    methods: {
-      runFetch() {
-        fetch(
-          "http://api.paydev.egolepay.com/api/InterswitchPayment/GenerateAccessToken",
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
-      },
-    },
-  }).mount("#app");
-</script>
+      .helper {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+      }
+
+      .container {
+        background-color: #eaebeb;
+        width: 550px;
+        border-radius: 4px;
+      }
+
+      .container-box {
+        width: 477px;
+        border: 1px solid #bbc6ca;
+        border-radius: 10px;
+        margin: 0 auto;
+        position: relative;
+        background-color: white;
+        /*background-image:url(/img/wallet-bg.png);*/
+      }
+
+      .container-box h1 {
+        text-align: center;
+        font-size: 160%;
+      }
+
+      .container-box > img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.35;
+        z-index: -1;
+      }
+
+      h1,
+      h2 {
+        color: #024c79;
+      }
+
+      hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 1em 0;
+        padding: 0;
+      }
+
+      .header-box {
+        height: 60px;
+        padding: 5px;
+      }
+
+      .header-box h2 {
+        font-size: 130%;
+        text-align: right;
+        display: inline-block;
+        width: 300px;
+      }
+
+      .header-box h2,
+      .header-box img {
+        vertical-align: middle;
+        max-height: 50px;
+      }
+
+      .info-box {
+        color: #2c2d5c;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .info-box table {
+        background-color: transparent;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid gray;
+        margin: 5px auto;
+      }
+
+      .info-box td {
+        border-top: 1px solid gray;
+        padding: 2px 5px 2px 5px;
+      }
+
+      .trx-box {
+        padding: 10px;
+      }
+
+      .trx-box div {
+        margin-bottom: 8px;
+      }
+
+      .trx-box span.label {
+        color: #4a4a4a;
+        text-transform: uppercase;
+      }
+
+      .trx-box input {
+        width: 200px;
+        height: 23px;
+        position: relative;
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 5px;
+        border: 1px solid #cfcfcf;
+      }
+
+      .trx-box select {
+        width: 99px;
+        height: 28px;
+        position: relative;
+        border-radius: 3px;
+        font-size: 14px;
+        padding: 5px;
+        border: 1px solid #cfcfcf;
+      }
+
+      .btn2 {
+        color: #fff;
+        background-color: #e4662a;
+        width: 180px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .btn2:hover {
+        color: #fff;
+        background-color: #e4662a;
+        width: 180px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+      }
+
+      .trx-box a {
+        color: #e4662a;
+        margin-left: 80px;
+        text-decoration: none;
+      }
+
+      .error {
+        color: red;
+      }
+
+      input:invalid {
+        border-color: red;
+      }
+
+      select:invalid {
+        border-color: red;
+      }
+
+      .pinpad {
+        width: 200px;
+        background-color: inherit;
+        padding-left: 10px;
+        margin-left: 1px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+
+      .pinpad a {
+        text-decoration: none;
+        margin-left: 0;
+        width: 60px;
+        /*height: 25px;*/
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: center;
+        display: inline-block;
+        border: 1px solid #fff;
+      }
+
+      .pinpad a:hover {
+        border: 1px solid #ccc;
+        background-color: #eee;
+        border-radius: 3px;
+      }
+    </style>
+    <script>
+      var pin = null;
+      function pinPush(str) {
+        if (pin == null) pin = document.getElementById("pin");
+        if (pin.value.length < 4) pin.value += str;
+      }
+
+      function pinClear() {
+        if (pin == null) pin = document.getElementById("pin");
+        pin.value = "";
+      }
+
+      function pinDel() {
+        if (pin == null) pin = document.getElementById("pin");
+        if (pin.value.length > 0)
+          pin.value = pin.value.substring(0, pin.value.length - 1);
+      }
+
+      function validateForm() {
+        var form = document.forms[0];
+        if (form.pin.value.length !== 4) {
+          alert("PIN must be 4 digits!");
+          return false;
+        }
+        if (form.ExpMon.value.length !== 2 || form.ExpYear.value.length !== 2) {
+          alert("Select your card expiration month and year!");
+          return false;
+        }
+        return true;
+      }
+
+      $(document).ready(function () {
+        var Loader = document.getElementById("preloader");
+        window.addEventListener("load", function () {
+          $(Loader).css({ display: "none" });
+        });
+      });
+    </script>
+    <div class="container">
+      <div id="preloader">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+      </div>
+      <div class="header-box">
+        <span class="helper"></span>
+        <img class="img-rounded" src="/img/verve.png" alt="Verve" />
+        <h2></h2>
+      </div>
+      <hr />
+      <div class="info-box">
+        <h2>Transaction Details</h2>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Transaction Id</th>
+              <th>Amount</th>
+              <th>Convenience Fee</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>35248</th>
+              <th>₦300.00</th>
+              <th>₦</th>
+              <th>payment for goods^WEBID35248</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr />
+      <div class="trx-box">
+        <form method="post" name="form" onSubmit="return validateForm()">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">Card Number: </label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="Pan"
+                  value="6280511000000095"
+                  maxlength="20"
+                  autocomplete="cc-number"
+                  pattern="[0-9]{12,19}"
+                  required
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label">Name: </label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="CardHolder"
+                  value="sam"
+                  autocomplete="name"
+                  required
+                  readonly
+                />
+              </div>
+              <label class="control-label">PIN: </label>
+              <input
+                class="form-control"
+                type="password"
+                style="background-color: white"
+                id="pin"
+                name="PIN"
+                readonly
+                required
+                maxlength="4"
+                pattern="[0-9]{4,4}"
+              />
+
+              <div class="pinpad">
+                <a href="javascript:pinPush('4')">4</a>
+                <a href="javascript:pinPush('5')">5</a>
+                <a href="javascript:pinPush('3')">3</a>
+                <a href="javascript:pinPush('6')">6</a>
+                <a href="javascript:pinPush('2')">2</a>
+                <a href="javascript:pinPush('7')">7</a>
+                <a href="javascript:pinPush('1')">1</a>
+                <a href="javascript:pinPush('8')">8</a>
+                <a href="javascript:pinPush('0')">0</a>
+                <a href="javascript:pinClear()">Clr</a>
+                <a href="javascript:pinPush('9')">9</a>
+                <a href="javascript:pinDel()">Del</a>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">CVV2: </label>
+                <input
+                  class="form-control"
+                  type="password"
+                  maxlength="3"
+                  value="123"
+                  pattern="[0-9]{3,3}"
+                  name="CVV2"
+                  autocomplete="off"
+                  required
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label class="control-label">Mobile Number: </label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="Mobile"
+                  autocomplete="tel"
+                  value="08069493993"
+                  pattern="[+ 0-9]{10,17}"
+                  required
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">Expiration Date: </label>
+                <div class="row">
+                  <div class="col-sm-2">
+                    <input
+                      class="form-control"
+                      style="width: 50px; background-color: none"
+                      type="text"
+                      value="12"
+                      name="ExpMon"
+                      readonly
+                      required
+                    />
+                  </div>
+                  <div class="col-sm-2">
+                    <input
+                      class="form-control"
+                      style="width: 50px; background-color: none"
+                      type="text"
+                      name="ExpYear"
+                      value="26"
+                      readonly
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button class="btn btn-default btn2">Pay</button>
+            <a href="/cancel/35248">Back to merchant site</a>
+          </div>
+        </form>
+        <div class="error"></div>
+      </div>
+    </div>
+    <script
+      type="text/javascript"
+      src="/bnith__vqldrKRt8c9elte95fW4YPFcGMY1xIEq7p-VM5X-dTEqUcj-7WnQKu4T6hQqG--peM0j7jVdJ5A="
+    ></script>
+    <script language="JavaScript" type="text/javascript">
+      var _0x5aae = [
+        "cookie",
+        "x-bni-fpc=",
+        "; expires=Thu, 01 Jan 2037 00:00:00 UTC; path=/;",
+        "x-bni-rncf=1664575624529; expires=Thu, 01 Jan 2037 00:00:00 UTC; path=/;",
+        "get",
+      ];
+      function fiprn() {
+        new fiprn_v2()[_0x5aae[4]](function (_0x6130x2, _0x6130x3) {
+          (document[_0x5aae[0]] = _0x5aae[1] + _0x6130x2 + _0x5aae[2]),
+            (document[_0x5aae[0]] = _0x5aae[3]);
+        });
+      }
+    </script>
+    <script>
+      fiprn();
+    </script>
+  </body>
+</html>

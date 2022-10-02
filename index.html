@@ -10,9 +10,11 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+
     <div class="wrapper">
       
       <div class="controls">
+
         <p>Please choose a payment mode</p>
         <div class="controls-button">
           <button id="btn1" class="button button1">Card</button>
@@ -55,8 +57,8 @@
                 data-mask="00 / 00"
                 placeholder="00 / 00"
               />
-              <i class="far fa-calendar-alt"></i>
-            </div>
+                    <i class="far fa-calendar-alt"></i>     
+               </div>
             <div class="card-item icon-relative">
               <label class="label">CVV</label>
               <input
@@ -68,7 +70,6 @@
               />
               <i class="fas fa-lock"></i>
             </div>
-
           </div>
 
           <div style="display: none;" id="pinDiv" class="card space icon-relative">
@@ -84,7 +85,7 @@
             <i id="cardIcon" class="fas fa-lock"></i>
           </div>
 
-          <button onclick="payWithCard()" id="payWithCard" class="payBtn">Pay</button>
+          <button onClick="payWithCard()" id="payWithCard" class="payBtn">Pay</button>
           <button style="display: none;" onclick="proceedWithCard()" id="proceedWithCard" class="payBtn">Proceed to make payment</button>
           <div class="images">
           <img src="img/mix.png"></img>
@@ -113,7 +114,7 @@
             />
             <i class="fas fa-mobile-alt"></i>
           </div>
-          <button onclick="payWithMobile()" id="payWithMobile" class="payBtn">Pay</button>
+          <button onClick="payWithMobile()" id="payWithMobile" class="payBtn">Pay</button>
           <div class="images">
             <img src="img/mix.png"></img>
             <img src="img/verve.png"></img>

@@ -1,22 +1,23 @@
-//This document controls payment actions and styling upon clicking payment button
+///This document controls card payment actions and styling
 
 //RUN PAYMENT OPERATION UPON CLICKING CARD PAYM BUTTON
-async function payWithCard() {
+const payWithCard = async () => {
   try {
-    //ACCESS TO HTML
-    var payBtn = document.getElementById("payWithCard");
+    //Access to html elements with id
+    const payBtn = document.getElementById("payWithCard");
+    const cvvInput = document.getElementById("expiry");
+
+    //retreiving values from inputs
     const cardHolder = document.getElementById("cardHolder").value;
     const cardNumber = document.getElementById("cardNumber").value;
-    const formatCardNumber = cardNumber.replace(/\s+/g, "");
     const expiry = document.getElementById("expiry").value;
     const cvv = document.getElementById("cvv").value;
-    const cvvInput = document.getElementById("expiry");
+
+    //formating values to remove extra space from string
+    const formatCardNumber = cardNumber.replace(/\s+/g, "");
     const formatExpiry = expiry.replace(/\s+/g, "");
-    // const pin = document.getElementById("pinDiv");
 
-    // const pin = document.getElementById("pinDiv");
-
-    //Passing arguments into method to validaye input fields
+    //Passing arguments into method to validate input fields
     const returnedValidationVal = consolidatedValidation(
       cardHolder,
       cardNumber,
@@ -54,9 +55,6 @@ async function payWithCard() {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    // myHeaders.append("Access-Control-Allow-Origin", "*");
-    // myHeaders.append("Access-Control-Allow-Methods", "POST");
-    // myHeaders.append("Access-Control-Allow-Headers", "Content-Type");
 
     var requestOptions = {
       method: "POST",
@@ -84,11 +82,11 @@ async function payWithCard() {
           alert(data.subDefaultCardDetailsUrl);
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => alert("error", error));
   } catch (error) {
     alert(error.message);
   }
-}
+};
 
 //PROCEED BUTTTON TO REDIRECT TO FINAL CHECKOUT PAGE
 const proceedWithCard = (urlString) => {

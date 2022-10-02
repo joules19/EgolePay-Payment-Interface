@@ -71,3 +71,7 @@ function mobileBtnProps() {
 // if (pin.style.display === "none" || inputPin == "") {
 //   throw new Error("Please enter your pin");
 // }
+
+// myHeaders.append("Access-Control-Allow-Origin", "*");
+// myHeaders.append("Access-Control-Allow-Methods", "POST");
+// myHeaders.append("Access-Control-Allow-Headers", "Content-Type");
