@@ -31,7 +31,7 @@ const payWithCard = async () => {
     }
 
     //Activates Spinner on button
-    configureBtn("payWithCard");
+    configureBtn("payWithCard", true);
 
     //Setting request headers
     var myHeaders = new Headers();
@@ -40,10 +40,10 @@ const payWithCard = async () => {
     //Forming payload for payment endpoint
     var raw = JSON.stringify({
       paymentType: "card",
-      apiKey: "PKwessdwwee43a",
-      publicKey: "sdwwee43asasdad",
-      secretKey: "UEt3ZXNzZHd3ZWU0M2FzZHd3ZWU0M2FzYXNkYWQ=",
-      merchantID: "1",
+      secretKey:
+        "QVBJY2FjZjBjMTJlYzJjNDkxZGI1Y2Y3ZDEwNzZkNGM2NDI5NjIyNmMwODcxMzA0NDZlYWM4OTE0ZjZkYmRmZjA==",
+      merchantID: "24",
+      merchantNo: "MN42086",
       merchTrancRef: "7699jy54",
       pan: formatCardNumber,
       expiry: formatExpiry,
@@ -79,8 +79,9 @@ const payWithCard = async () => {
         }
 
         //Error if server response == 01
-        if (data.statusCode == "01") {
-          alert(data.subDefaultCardDetailsUrl);
+        if (data.statusCode == "01" || data.statusCode != "00") {
+          alert(data.statusCode);
+          configureBtn("payWithCard", false);
         }
       })
       .catch((error) => alert("error", error));

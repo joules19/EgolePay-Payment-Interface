@@ -1,20 +1,30 @@
 // Adds styling and spinner to the payament button upon click.
-function configureBtn(id) {
+function configureBtn(id, status) {
   var btnElement = document.getElementById(id);
-  btnElement.innerText = "";
 
-  btnElement.disabled = true;
-  disableInputs(true);
+  if (status === true) {
+    btnElement.innerText = "";
 
-  btnElement.style.backgroundColor = "#ff800075";
+    btnElement.disabled = true;
+    disableInputs(true);
 
-  const classesToAdd = ["fas", "fa-spinner", "fa-spin"];
-  let i = document.createElement("i");
-  btnElement.prepend(i);
+    btnElement.style.backgroundColor = "#ff800075";
 
-  classesToAdd.forEach((ele) => {
-    i.classList.add(...classesToAdd);
-  });
+    const classesToAdd = ["fas", "fa-spinner", "fa-spin"];
+    let i = document.createElement("i");
+    btnElement.prepend(i);
+
+    classesToAdd.forEach((ele) => {
+      i.classList.add(...classesToAdd);
+    });
+  } else {
+    btnElement.innerText = "Pay";
+
+    btnElement.disabled = false;
+    disableInputs(false);
+
+    btnElement.style.backgroundColor = "#ff8000ad";
+  }
 }
 
 // VALIDATION FOR CARDHOLDER NAME
