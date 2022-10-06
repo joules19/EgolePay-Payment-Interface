@@ -97,7 +97,6 @@ const proceedWithCard = (urlString) => {
   input.addEventListener("click", function () {
     //Activates Spinner on button
     configureBtn("proceedWithCard");
-
     input.disabled = true;
     input.style.background = "#ff800075";
     location.href = urlString;
