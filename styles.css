@@ -43,7 +43,7 @@ body {
 .controls {
   display: flex;
   max-width: 360px;
-  margin: 90px auto 10px;
+  margin: 30px auto 10px;
   height: auto;
   padding: 15px 0;
   position: relative;
@@ -95,8 +95,9 @@ body {
 /* form card */
 .payment {
   background: #f7f7f7;
-  max-width: 360px;
-  margin: 40px auto 300px;
+  width: 360px;
+  margin: 40px auto 400px;
+  overflow: hidden;
   height: auto;
   padding: 35px 35px 20px;
   padding-top: 40px;

@@ -2,14 +2,16 @@
 
 //Access to HTML elements by Id
 var cardDiv = document.getElementById("card");
-var mobileDiv = document.getElementById("mobile");
 var cardBtn = document.getElementById("btn1");
+var mobileDiv = document.getElementById("mobile");
 var mobileBtn = document.getElementById("btn2");
-var cardDiv = document.getElementById("card");
+var transferDiv = document.getElementById("transfer");
+var transferBtn = document.getElementById("btn3");
 
 //Setting default styling for controls button on page load
 window.onload = function () {
   mobileDiv.style.display = "none";
+  transferDiv.style.display = "none";
   cardBtn.style.backgroundColor = "#0D3C61";
   cardBtn.style.color = "#fff";
 };
@@ -18,6 +20,7 @@ window.onload = function () {
 $(document).ready(function () {
   $("#btn1").click(function () {
     if (cardDiv.style.display === "none") {
+      $("#transfer").fadeOut();
       $("#mobile").fadeOut();
       $("#card").fadeIn(1000);
       cardBtnProps();
@@ -27,8 +30,18 @@ $(document).ready(function () {
   $("#btn2").click(function () {
     if (mobileDiv.style.display === "none") {
       $("#card").fadeOut();
+      $("#transfer").fadeOut();
       $("#mobile").fadeIn(1000);
       mobileBtnProps();
+    }
+  });
+
+  $("#btn3").click(function () {
+    if (transferDiv.style.display === "none") {
+      $("#mobile").fadeOut();
+      $("#card").fadeOut();
+      $("#transfer").fadeIn(1000);
+      transferBtnProps();
     }
   });
 });
@@ -40,38 +53,29 @@ function cardBtnProps() {
   mobileBtn.style.border = "1px solid #0D3C61";
   mobileBtn.style.backgroundColor = "#fff";
   mobileBtn.style.color = "#0D3C61";
+  transferBtn.style.border = "1px solid #0D3C61";
+  transferBtn.style.backgroundColor = "#fff";
+  transferBtn.style.color = "#0D3C61";
 }
+
 function mobileBtnProps() {
   mobileBtn.style.backgroundColor = "#0D3C61";
   mobileBtn.style.color = "#fff";
   cardBtn.style.backgroundColor = "#fff";
   cardBtn.style.color = "#0D3C61";
   cardBtn.style.border = "1px solid #0D3C61";
+  transferBtn.style.border = "1px solid #0D3C61";
+  transferBtn.style.backgroundColor = "#fff";
+  transferBtn.style.color = "#0D3C61";
 }
 
-//Setting hover style on control buttons with javascript
-// function setButtonHoverStyle(btnId, col1, col2) {
-//   document.getElementById(btnId).onmouseover = function () {
-//     this.style.backgroundColor = col1;
-//     this.style.color = col2;
-//   };
-//   document.getElementById(btnId).onmouseleave = function () {
-//     this.style.backgroundColor = col2;
-//     this.style.color = col1;
-//   };
-// }
-
-// if (pin.style.display === "none") {
-//   $("#pinDiv").fadeIn(500);
-//   return;
-// }
-
-// const inputPin = document.getElementById("pin").value;
-
-// if (pin.style.display === "none" || inputPin == "") {
-//   throw new Error("Please enter your pin");
-// }
-
-// myHeaders.append("Access-Control-Allow-Origin", "*");
-// myHeaders.append("Access-Control-Allow-Methods", "POST");
-// myHeaders.append("Access-Control-Allow-Headers", "Content-Type");
+function transferBtnProps() {
+  transferBtn.style.backgroundColor = "#0D3C61";
+  transferBtn.style.color = "#fff";
+  cardBtn.style.backgroundColor = "#fff";
+  cardBtn.style.color = "#0D3C61";
+  cardBtn.style.border = "1px solid #0D3C61";
+  mobileBtn.style.border = "1px solid #0D3C61";
+  mobileBtn.style.backgroundColor = "#fff";
+  mobileBtn.style.color = "#0D3C61";
+}
