@@ -30,7 +30,7 @@ const payWithCard = async () => {
     }
 
     //Activates Spinner on button
-    configureBtn("payWithCard", true);
+    configurePayBtn("payWithCard", true);
 
     //Setting request headers
     var myHeaders = new Headers();
@@ -95,7 +95,64 @@ const proceedWithCard = (urlString) => {
 
   input.addEventListener("click", function () {
     //Activates Spinner on button
-    configureBtn("proceedWithCard", true);
+    configurePayBtn("proceedWithCard", true);
+    input.disabled = true;
+    input.style.background = "#ff800075";
+    location.href = urlString;
+  });
+};
+
+//CONFIRM BUTTON TO VERIFY RECIPIENT INFORMATION
+const confirmRecipient = async () => {
+  try {
+    //Access to html elements with id
+    const transferInfoDiv = document.getElementById("transferInfo");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const transferBtn = document.getElementById("transferBtn");
+
+    //retreiving values from inputs
+    const recipientName = document.getElementById("recipientName");
+    const recipientAccount = document.getElementById("recipientAccount").value;
+    const bank = document.getElementById("bankList").value;
+    const amount = document.getElementById("amount").value;
+    const narration = document.getElementById("narration").value;
+
+    //formating values to remove extra space from string
+    const formatRecipientAccount = recipientAccount.replace(/\s+/g, "");
+
+    //Passing arguments into method to validate input fields
+    const returnedValidationVal = consolidatedValidationForTransfer(
+      recipientAccount,
+      bank
+    );
+
+    //Return validation status to display error
+    if (returnedValidationVal) {
+      return alert(returnedValidationVal);
+    }
+
+    //Activates Spinner on button
+    configureTransferBtn("confirmBtn", true);
+
+    setTimeout(() => {
+      confirmBtn.style.display = "none";
+      $("#transferBtn").fadeIn(500);
+      transfer("data.subDefaultCardDetailsUrl");
+      recipientName.value = "Ayodele Babafemi";
+      $("#transferInfo").fadeIn(500);
+    }, 4000);
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+//CONFIRM TRANSFER BUTTTON TO COMPLETE TRANSFER
+const transfer = (urlString) => {
+  const input = document.getElementById("transferBtn");
+
+  input.addEventListener("click", function () {
+    //Activates Spinner on button
+    configureBtn("transferBtn", true);
     input.disabled = true;
     input.style.background = "#ff800075";
     location.href = urlString;

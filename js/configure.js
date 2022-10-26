@@ -1,12 +1,12 @@
 // Adds styling and spinner to the payament button upon click.
-function configureBtn(id, status) {
+function configurePayBtn(id, status) {
   var btnElement = document.getElementById(id);
 
   if (status === true) {
     btnElement.innerText = "";
 
     btnElement.disabled = true;
-    disableInputs(true);
+    disableCardInputs(true);
 
     btnElement.style.backgroundColor = "#ff800075";
 
@@ -21,7 +21,35 @@ function configureBtn(id, status) {
     btnElement.innerText = "Pay";
 
     btnElement.disabled = false;
-    disableInputs(false);
+    disableCardInputs(false);
+
+    btnElement.style.backgroundColor = "#ff8000ad";
+  }
+}
+
+function configureTransferBtn(id, status) {
+  var btnElement = document.getElementById(id);
+
+  if (status === true) {
+    btnElement.innerText = "";
+
+    btnElement.disabled = true;
+    disableTransferInputs(true);
+
+    btnElement.style.backgroundColor = "#ff800075";
+
+    const classesToAdd = ["fas", "fa-spinner", "fa-spin"];
+    let i = document.createElement("i");
+    btnElement.prepend(i);
+
+    classesToAdd.forEach((ele) => {
+      i.classList.add(...classesToAdd);
+    });
+  } else {
+    btnElement.innerText = "Pay";
+
+    btnElement.disabled = false;
+    disableTransferInputs(false);
 
     btnElement.style.backgroundColor = "#ff8000ad";
   }
@@ -120,6 +148,47 @@ const validateCvv = function (cvv) {
   }
 };
 
+// VALIDATING RECIPIENT'S ACCOUNT NUMBER FIELD
+const validateRecipientAccountNumber = function (number) {
+  try {
+    if (number == "" || number == null) {
+      throw new Error("Recipient's account number field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const validateRecipientBank = function (bank) {
+  try {
+    if (bank == "" || bank == null) {
+      throw new Error("Recipient's bank field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const validateAmount = function (amount) {
+  try {
+    if (amount <= 0 || amount == "" || amount == null) {
+      throw new Error("Amount field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const validateNarration = function (narration) {
+  try {
+    if (narration == "" || narration == null) {
+      throw new Error("Narration field cannot be blank!");
+    }
+  } catch (error) {
+    return error.message;
+  }
+};
+
 // CONSOLIDATED INPUT VALIDATION
 const consolidatedValidation = function (cardHolder, cardNumber, expiry, cvv) {
   const cardHolderVal = validateCardHolderName(cardHolder);
@@ -141,6 +210,32 @@ const consolidatedValidation = function (cardHolder, cardNumber, expiry, cvv) {
   }
 };
 
+// CONSOLIDATED INPUT VALIDATION FOR TRANSFER
+const consolidatedValidationForTransfer = function (number, bank) {
+  const accountNumberVal = validateRecipientAccountNumber(number);
+  const bankVal = validateRecipientBank(bank);
+
+  if (accountNumberVal) {
+    return accountNumberVal;
+  }
+  if (bankVal) {
+    return bankVal;
+  }
+};
+
+// CONSOLIDATED INPUT VALIDATION FOR PROCEED WITH TRANSFER
+const consolidatedValidationForProceedTransfer = function (amount, narration) {
+  const amountVal = validateAmount(amount);
+  const transferNarration = validateNarration(narration);
+
+  if (amountVal) {
+    return amountVal;
+  }
+  if (transferNarration) {
+    return transferNarration;
+  }
+};
+
 //RUN PAYMENT OPERATION UPON CLICKING MOBILE PAYMENT BUTTON
 function payWithMobile() {
   configureBtn("payWithMobile");
@@ -148,7 +243,7 @@ function payWithMobile() {
 }
 
 //FUNCTION TO DISABLE INPUTS AT DATA PROCESSING
-const disableInputs = (a) => {
+const disableCardInputs = (a) => {
   if (a === true) {
     cardNumber.style.color = "#afafafe0";
     cardHolder.style.color = "#afafafe0";
@@ -168,5 +263,26 @@ const disableInputs = (a) => {
     document.getElementById("expiry").disabled = false;
     document.getElementById("cvv").disabled = false;
     document.getElementById("pin").disabled = false;
+  }
+};
+
+//FUNCTION TO DISABLE INPUTS AT DATA PROCESSING
+const disableTransferInputs = (a) => {
+  const recipientAccount = document.getElementById("recipientAccount");
+  const bank = document.getElementById("bankList");
+  const recipientName = document.getElementById("recipientName");
+
+  if (a === true) {
+    recipientAccount.style.color = "#afafafe0";
+    bank.style.color = "#afafafe0";
+    recipientName.style.color = "#afafafe0";
+
+    recipientAccount.disabled = true;
+    bank.disabled = true;
+    recipientName.disabled = true;
+  } else {
+    recipientAccount.disabled = false;
+    bank.disabled = false;
+    recipientName.disabled = false;
   }
 };
