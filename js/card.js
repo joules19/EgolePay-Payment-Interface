@@ -102,6 +102,51 @@ const proceedWithCard = (urlString) => {
   });
 };
 
+const getBanks = () => {
+  var requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+
+  let dropdown = document.getElementById("bankList");
+  dropdown.length = 0;
+
+  let defaultOption = document.createElement("option");
+  defaultOption.text = "Select Bank";
+
+  dropdown.add(defaultOption);
+  dropdown.selectedIndex = 0;
+
+  fetch(
+    "http://trs.egolepay.com/api/Providus/ProvidusGetNIPBanks",
+    requestOptions
+  )
+    .then(function (response) {
+      if (response.status !== 200) {
+        console.warn(
+          "Looks like there was a problem. Status Code: " + response.status
+        );
+        return;
+      }
+
+      // Examine the text in the response
+      response.json().then(function (data) {
+        const banks = data.banks;
+        let option;
+
+        for (let i = 0; i < banks.length; i++) {
+          option = document.createElement("option");
+          option.text = banks[i].bankName;
+          option.value = banks[i].bankCode;
+          dropdown.add(option);
+        }
+      });
+    })
+    .catch(function (err) {
+      console.error("Fetch Error -", err);
+    });
+};
+
 //CONFIRM BUTTON TO VERIFY RECIPIENT INFORMATION
 const confirmRecipient = async () => {
   try {

@@ -11,8 +11,8 @@ var transferBtn = document.getElementById("btn3");
 //Setting default styling for controls button on page load
 window.onload = function () {
   mobileDiv.style.display = "none";
-  // transferDiv.style.display = "none";
-  cardDiv.style.display = "none";
+  transferDiv.style.display = "none";
+  //cardDiv.style.display = "none";
   cardBtn.style.backgroundColor = "#0D3C61";
   cardBtn.style.color = "#fff";
 };
@@ -39,6 +39,7 @@ $(document).ready(function () {
 
   $("#btn3").click(function () {
     if (transferDiv.style.display === "none") {
+      getBanks();
       $("#mobile").fadeOut();
       $("#card").fadeOut();
       $("#transfer").fadeIn(1000);
